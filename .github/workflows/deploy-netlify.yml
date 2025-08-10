@@ -1,4 +1,4 @@
-# .github/workflows/deploy-netlify.yml
+# .github/workflows/deploy-netlify.yml (YAML: YAML Ain't Markup Language [a data-serialization language])
 name: Netlify Deploy (Vite + TS)
 
 on:
@@ -9,17 +9,32 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js (JavaScript runtime)
+      # Setup Node.js (JavaScript runtime) WITHOUT cache when no lockfile
+      - name: Setup Node.js (no cache; lock will be created)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Generate package-lock.json if missing (still on the runner)
+      - name: Ensure lockfile
+        run: |
+          if [ ! -f package-lock.json ]; then
+            npm install --package-lock-only
+          fi
+
+      # Now we can safely use setup-node with cache, since lock exists
+      - name: Setup Node.js with npm cache
+        if: hashFiles('**/package-lock.json') != ''
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: package-lock.json
 
-      - name: Install dependencies
+      - name: Clean install using lockfile
         run: npm ci
 
       - name: Build (Vite)
@@ -29,8 +44,7 @@ jobs:
         uses: South-Paw/action-netlify-cli@v2
         with:
           args: >
-            deploy
-            --dir=dist
+            deploy --dir=dist
             ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && '--prod' || '' }}
             --site=$NETLIFY_SITE_ID
         env:
