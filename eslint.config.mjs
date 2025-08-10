@@ -1,4 +1,4 @@
-// ESLint (ECMAScript Lint — a code quality tool) flat config for ESLint 9
+// ESLint (ECMAScript Lint — code quality tool) flat config for ESLint 9
 import tseslint from '@typescript-eslint/eslint-plugin'
 import tsparser from '@typescript-eslint/parser'
 import react from 'eslint-plugin-react'

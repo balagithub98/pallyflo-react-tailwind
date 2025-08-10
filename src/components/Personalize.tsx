@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { Star } from 'lucide-react'
 
 export const Personalize: React.FC = () => {
-  const [engraving, setEngraving] = useState('')
-  const [packaging, setPackaging] = useState<'standard'|'premium'>('standard')
+  const [engraving, setEngraving] = useState<string>('')
+  const [packaging, setPackaging] = useState<'standard' | 'premium'>('standard')
 
   return (
     <form className="grid gap-4 max-w-xl">
@@ -12,7 +12,7 @@ export const Personalize: React.FC = () => {
         <input
           type="text"
           value={engraving}
-          onChange={(e) => setEngraving(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEngraving(e.target.value)}
           placeholder="Enter text (max 24 chars)"
           maxLength={24}
           className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-primary"
@@ -23,7 +23,7 @@ export const Personalize: React.FC = () => {
       <div>
         <span className="font-medium block">Packaging</span>
         <div className="mt-1 flex gap-3">
-          {(['standard','premium'] as const).map((opt) => (
+          {(['standard', 'premium'] as const).map((opt) => (
             <button
               key={opt}
               type="button"
@@ -31,9 +31,10 @@ export const Personalize: React.FC = () => {
               className={
                 'px-3 py-2 rounded-md border shadow-sm transition ' +
                 (packaging === opt ? 'border-brand-primary ring-2 ring-brand-primary' : 'border-slate-300 hover:border-slate-400')
-              }>
-              {opt === 'premium' ? <Star className="inline -mt-1 mr-1" size={16}/> : null}
-              {opt[0].toUpperCase()+opt.slice(1)}
+              }
+            >
+              {opt === 'premium' ? <Star className="inline -mt-1 mr-1" size={16} /> : null}
+              {opt[0].toUpperCase() + opt.slice(1)}
             </button>
           ))}
         </div>

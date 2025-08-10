@@ -13,12 +13,36 @@ export const Layout: React.FC = () => {
           </div>
           <nav aria-label="Primary">
             <ul className="flex flex-wrap gap-2">
-              <li><NavLink to="/" end className={({isActive}) => linkCls(isActive)}>About Pallyflo</NavLink></li>
-              <li><NavLink to="/services" className={({isActive}) => linkCls(isActive)}><Shield className="inline -mt-1" size={16}/> Services</NavLink></li>
-              <li><NavLink to="/products" className={({isActive}) => linkCls(isActive)}><ShoppingCart className="inline -mt-1" size={16}/> Products</NavLink></li>
-              <li><NavLink to="/work-with-us" className={({isActive}) => linkCls(isActive)}><Users className="inline -mt-1" size={16}/> Work With Us</NavLink></li>
-              <li><NavLink to="/reach-us" className={({isActive}) => linkCls(isActive)}><Mail className="inline -mt-1" size={16}/> Reach Us</NavLink></li>
-              <li><NavLink to="/careers" className={({isActive}) => linkCls(isActive)}><Briefcase className="inline -mt-1" size={16}/> Careers</NavLink></li>
+              <li>
+                <NavLink to="/" end className={({ isActive }: { isActive: boolean }) => linkCls(isActive)}>
+                  About Pallyflo
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/services" className={({ isActive }: { isActive: boolean }) => linkCls(isActive)}>
+                  <Shield className="inline -mt-1" size={16} /> Services
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/products" className={({ isActive }: { isActive: boolean }) => linkCls(isActive)}>
+                  <ShoppingCart className="inline -mt-1" size={16} /> Products
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/work-with-us" className={({ isActive }: { isActive: boolean }) => linkCls(isActive)}>
+                  <Users className="inline -mt-1" size={16} /> Work With Us
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/reach-us" className={({ isActive }: { isActive: boolean }) => linkCls(isActive)}>
+                  <Mail className="inline -mt-1" size={16} /> Reach Us
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/careers" className={({ isActive }: { isActive: boolean }) => linkCls(isActive)}>
+                  <Briefcase className="inline -mt-1" size={16} /> Careers
+                </NavLink>
+              </li>
             </ul>
           </nav>
         </div>
@@ -41,3 +65,5 @@ function linkCls(active: boolean) {
     active ? 'bg-white/15 text-white' : 'text-blue-100 hover:bg-white/10'
   ].join(' ')
 }
+
+export default Layout
