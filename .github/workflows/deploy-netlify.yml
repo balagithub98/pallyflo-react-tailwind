@@ -13,20 +13,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # First setup without cache (no lockfile yet)
+      # First setup (no cache yet)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # Create package-lock.json on the runner if missing (no local build required)
+      # Create package-lock.json in CI (if your repo doesn't have one)
       - name: Ensure lockfile
         run: |
           if [ ! -f package-lock.json ]; then
             npm install --package-lock-only --no-audit --no-fund
           fi
 
-      # Re-setup Node with cache once lockfile exists
+      # Re-setup Node with npm cache now that the lockfile exists
       - name: Setup Node.js with npm cache
         if: hashFiles('**/package-lock.json') != ''
         uses: actions/setup-node@v4
@@ -44,7 +44,17 @@ jobs:
       - name: Build (Vite)
         run: npm run build
 
-      - name: Deploy to Netlify (Preview for PRs, Prod on main)
+      # OPTIONAL: keep build as artifact (useful for debugging)
+      - name: Upload build artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      # Deploy to Netlify using the CLI (Command Line Interface [a text-based tool])
+      # PRs (Pull Requests [proposed code changes]) -> Preview; push to main -> Production
+      - name: Deploy to Netlify
         uses: South-Paw/action-netlify-cli@v2
         with:
           args: >
