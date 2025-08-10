@@ -1,5 +1,4 @@
-# .github/workflows/deploy-netlify.yml (YAML: YAML Ain't Markup Language [a data-serialization language])
-name: Netlify Deploy (Vite + TS)
+name: Netlify Deploy (React + TS + Tailwind)
 
 on:
   push:
@@ -9,23 +8,25 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
 
-      # Setup Node.js (JavaScript runtime) WITHOUT cache when no lockfile
-      - name: Setup Node.js (no cache; lock will be created)
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # First setup without cache (no lockfile yet)
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # Generate package-lock.json if missing (still on the runner)
+      # Create package-lock.json on the runner if missing (no local build required)
       - name: Ensure lockfile
         run: |
           if [ ! -f package-lock.json ]; then
-            npm install --package-lock-only
+            npm install --package-lock-only --no-audit --no-fund
           fi
 
-      # Now we can safely use setup-node with cache, since lock exists
+      # Re-setup Node with cache once lockfile exists
       - name: Setup Node.js with npm cache
         if: hashFiles('**/package-lock.json') != ''
         uses: actions/setup-node@v4
@@ -34,8 +35,11 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
 
-      - name: Clean install using lockfile
+      - name: Install dependencies
         run: npm ci
+
+      - name: Lint (ESLint)
+        run: npm run lint
 
       - name: Build (Vite)
         run: npm run build
