@@ -1,0 +1,1 @@
+export const Services = () => <div className='container mx-auto px-4 py-10'><h2 className='text-3xl font-bold'>Services</h2><p className='mt-2 text-slate-700'>Export services, quality control, logistics, documentation support.</p></div>

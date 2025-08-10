@@ -1,0 +1,1 @@
+export const Products = () => <div className='container mx-auto px-4 py-10'><h2 className='text-3xl font-bold'>Products</h2><p className='mt-2 text-slate-700'>List pulses and seeds with specs here.</p></div>

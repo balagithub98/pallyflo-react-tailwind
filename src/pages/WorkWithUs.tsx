@@ -1,0 +1,1 @@
+export const WorkWithUs = () => <div className='container mx-auto px-4 py-10'><h2 className='text-3xl font-bold'>Work With Us</h2><p className='mt-2 text-slate-700'>Partnership models and onboarding.</p></div>

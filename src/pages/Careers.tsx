@@ -1,0 +1,1 @@
+export const Careers = () => <div className='container mx-auto px-4 py-10'><h2 className='text-3xl font-bold'>Careers</h2><p className='mt-2 text-slate-700'>Open roles and application details.</p></div>

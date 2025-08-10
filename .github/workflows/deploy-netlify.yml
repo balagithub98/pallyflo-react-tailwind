@@ -1,0 +1,32 @@
+name: Netlify Deploy (React TS + Tailwind)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Build
+        run: npm run build
+      - name: Deploy (Preview for PRs, Prod on main)
+        uses: netlify/actions/cli@v4
+        with:
+          args: >
+            deploy --dir=dist
+            ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && '--prod' || '' }}
+            --site=$NETLIFY_SITE_ID
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

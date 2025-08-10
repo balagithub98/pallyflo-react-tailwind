@@ -1,0 +1,1 @@
+export const ReachUs = () => <div className='container mx-auto px-4 py-10'><h2 className='text-3xl font-bold'>Reach Us</h2><p className='mt-2 text-slate-700'><strong>Email</strong> support@pallyflo.com • <strong>Sales</strong> sales@pallyflo.com • <strong>Phone</strong> +1‑647‑447‑0070</p></div>
